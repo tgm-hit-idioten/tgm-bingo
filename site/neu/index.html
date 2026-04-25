@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neues Bingo erstellen</title>
+  <link rel="stylesheet" href="../assets/bingo.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Neues Bingo erstellen</h1>
+        <p>Erstelle dein Bingo als JSON-Datei.</p>
+      </div>
+      <div class="actions">
+        <a class="button" href="../index.html">Zur Uebersicht</a>
+      </div>
+    </header>
+
+    <form id="create-form">
+      <p>
+        <label>Titel<br /><input name="title" required /></label>
+      </p>
+      <p>
+        <label>Untertitel<br /><input name="subtitle" /></label>
+      </p>
+      <p>
+        <label>Titelbild (URL oder relativer Pfad)<br /><input name="titleImage" placeholder="../assets/bilder/mein-bingo.jpg" /></label>
+      </p>
+      <p>
+        <label>Quadratgroesse (z. B. 3, 4, 5)<br /><input name="size" type="number" min="2" value="5" required /></label>
+      </p>
+      <p>
+        <label>Freifeld-Text (optional, nur bei ungerader Groesse fuer die Mitte)<br /><input name="freeText" placeholder="z. B. Freifeld" /></label>
+      </p>
+      <p>
+        <label>Felder (eine Zeile pro Feld)</label><br />
+        <textarea name="cells" rows="14" required></textarea>
+      </p>
+      <div class="actions">
+        <button class="button primary" type="submit">JSON herunterladen</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById('create-form');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const size = Number(data.get('size'));
+      const expected = size * size;
+      const cells = String(data.get('cells') || '')
+        .split('\n')
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      if (!Number.isInteger(size) || size < 2) {
+        alert('Bitte eine gueltige Quadratgroesse ab 2 eintragen.');
+        return;
+      }
+
+      if (cells.length !== expected) {
+        alert('Bitte genau ' + expected + ' Felder eintragen. Aktuell: ' + cells.length);
+        return;
+      }
+
+      const title = String(data.get('title') || '').trim();
+      const payload = {
+        title,
+        subtitle: String(data.get('subtitle') || '').trim(),
+        freeText: String(data.get('freeText') || '').trim(),
+        titleImage: String(data.get('titleImage') || '').trim(),
+        cells
+      };
+
+      if (!payload.freeText) {
+        delete payload.freeText;
+      }
+
+      if (!payload.titleImage) {
+        delete payload.titleImage;
+      }
+
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'neues-bingo';
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = slug + '.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
