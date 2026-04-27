@@ -6,6 +6,70 @@
   --accent: #3b82f6;
   --accent-2: #1d4ed8;
   --ok: #16a34a;
+  --muted: #475569;
+  --surface: #f1f5f9;
+  --shadow: rgba(30, 64, 175, 0.08);
+  --checked-bg: #dcfce7;
+  --checked-border: #86efac;
+  --locked-bg: #dbeafe;
+  --locked-border: #93c5fd;
+  --overlay: rgba(22, 163, 74, 0.94);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1220;
+    --card: #111a2e;
+    --line: #22314c;
+    --text: #e2e8f0;
+    --accent: #60a5fa;
+    --accent-2: #93c5fd;
+    --ok: #4ade80;
+    --muted: #94a3b8;
+    --surface: #17233a;
+    --shadow: rgba(2, 6, 23, 0.6);
+    --checked-bg: #173123;
+    --checked-border: #2f855a;
+    --locked-bg: #172a45;
+    --locked-border: #3b82f6;
+    --overlay: rgba(74, 222, 128, 0.92);
+  }
+}
+
+html[data-theme='light'] {
+  --bg: #f7f8fb;
+  --card: #ffffff;
+  --line: #d8deea;
+  --text: #111827;
+  --accent: #3b82f6;
+  --accent-2: #1d4ed8;
+  --ok: #16a34a;
+  --muted: #475569;
+  --surface: #f1f5f9;
+  --shadow: rgba(30, 64, 175, 0.08);
+  --checked-bg: #dcfce7;
+  --checked-border: #86efac;
+  --locked-bg: #dbeafe;
+  --locked-border: #93c5fd;
+  --overlay: rgba(22, 163, 74, 0.94);
+}
+
+html[data-theme='dark'] {
+  --bg: #0b1220;
+  --card: #111a2e;
+  --line: #22314c;
+  --text: #e2e8f0;
+  --accent: #60a5fa;
+  --accent-2: #93c5fd;
+  --ok: #4ade80;
+  --muted: #94a3b8;
+  --surface: #17233a;
+  --shadow: rgba(2, 6, 23, 0.6);
+  --checked-bg: #173123;
+  --checked-border: #2f855a;
+  --locked-bg: #172a45;
+  --locked-border: #3b82f6;
+  --overlay: rgba(74, 222, 128, 0.92);
 }
 
 * {
@@ -57,12 +121,12 @@ p {
   object-fit: cover;
   border-radius: 14px;
   border: 1px solid var(--line);
-  background: #f1f5f9;
+  background: var(--surface);
 }
 
 .button {
   border: 1px solid var(--line);
-  background: white;
+  background: var(--card);
   color: var(--text);
   border-radius: 10px;
   padding: 0.55rem 0.9rem;
@@ -122,14 +186,14 @@ p {
 }
 
 .cell-btn.checked {
-  background: #dcfce7;
-  border-color: #86efac;
+  background: var(--checked-bg);
+  border-color: var(--checked-border);
   text-decoration: line-through;
 }
 
 .cell-btn.locked {
-  background: #dbeafe;
-  border-color: #93c5fd;
+  background: var(--locked-bg);
+  border-color: var(--locked-border);
   font-weight: 700;
   cursor: default;
 }
@@ -143,7 +207,7 @@ p {
   pointer-events: none;
   font-size: clamp(2rem, 10vw, 6rem);
   font-weight: 900;
-  color: rgba(22, 163, 74, 0.94);
+  color: var(--overlay);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
   z-index: 2;
 }
@@ -154,7 +218,122 @@ p {
 
 .status {
   margin-top: 0.8rem;
-  color: #475569;
+  color: var(--muted);
+}
+
+.theme-toggle {
+  min-width: 12ch;
+  text-align: center;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.menu {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.hint {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  margin-bottom: 0.65rem;
+  background: var(--surface);
+}
+
+.card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px var(--shadow);
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.45rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.field-label {
+  display: inline-block;
+  margin-bottom: 0.35rem;
+}
+
+.hint-text {
+  color: var(--muted);
+  margin: 0;
+}
+
+.creator-grid {
+  margin-top: 0.5rem;
+}
+
+.creator-grid li {
+  min-height: auto;
+}
+
+.creator-cell {
+  width: 100%;
+  min-height: 95px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  padding: 0.35rem;
+}
+
+.creator-cell textarea {
+  width: 100%;
+  height: 100%;
+  min-height: 84px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  text-align: center;
+}
+
+.creator-cell textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  outline-offset: 1px;
+}
+
+.creator-cell.has-error {
+  border-color: #ef4444;
 }
 
 form p {

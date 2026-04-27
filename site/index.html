@@ -3,114 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lehrer-Bingo Uebersicht</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, Arial, sans-serif;
-      background: #f5f7fb;
-      color: #111827;
+  <title>Lehrer-Bingo Übersicht</title>
+  <script>
+  (() => {
+    try {
+      const mode = localStorage.getItem('theme-preference');
+      if (mode === 'light' || mode === 'dark') {
+        document.documentElement.dataset.theme = mode;
+      }
+    } catch {
+      // Ignore unavailable storage.
     }
-
-    main {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 2rem 1rem 3rem;
-    }
-
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    .menu {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      border: 1px solid #c7d2fe;
-      background: #fff;
-      color: #111827;
-      text-decoration: none;
-      border-radius: 10px;
-      padding: 0.6rem 0.95rem;
-    }
-
-    .btn.primary {
-      border-color: #2563eb;
-      background: #2563eb;
-      color: white;
-    }
-
-    .hint {
-      color: #4b5563;
-      margin-top: 0;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 0.8rem;
-      margin-top: 1.2rem;
-    }
-
-    .card {
-      display: block;
-      background: white;
-      border: 1px solid #dbe3f1;
-      border-radius: 12px;
-      padding: 0.9rem;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .card img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 10px;
-      border: 1px solid #dbe3f1;
-      margin-bottom: 0.65rem;
-      background: #f1f5f9;
-    }
-
-    .card:hover {
-      border-color: #93c5fd;
-      box-shadow: 0 8px 24px rgba(30, 64, 175, 0.08);
-    }
-
-    .card h2 {
-      font-size: 1.1rem;
-      margin: 0 0 0.45rem;
-    }
-
-    .card p {
-      margin: 0;
-      color: #475569;
-    }
-  </style>
+  })();
+</script>
+  <link rel="stylesheet" href="./assets/bingo.css" />
 </head>
 <body>
   <main>
     <div class="top">
       <div>
         <h1>Lehrer-Bingo</h1>
-        <p class="hint">Waehle ein Bingo und hake Felder direkt im Browser ab.</p>
+        <p class="hint">Wähle ein Bingo und hake Felder direkt im Browser ab.</p>
       </div>
-      <nav class="menu" aria-label="Hauptmenue">
-        <a class="btn primary" href="./neu/index.html">Neues Bingo erstellen</a>
+      <nav class="menu" aria-label="Hauptmenü">
+        <button type="button" id="theme-toggle" class="button theme-toggle">Design: Auto</button>
+        <a class="button primary" href="./neu/index.html">Neues Bingo erstellen</a>
       </nav>
     </div>
     <section class="cards" aria-label="Bingo-Liste">
@@ -121,5 +38,78 @@
       </a>
     </section>
   </main>
+  <script>
+  (() => {
+    const button = document.getElementById('theme-toggle');
+    if (!button) {
+      return;
+    }
+
+    const modes = ['auto', 'dark', 'light'];
+    const labels = {
+      auto: 'Design: Auto',
+      dark: 'Design: Dunkel',
+      light: 'Design: Hell'
+    };
+
+    function getStoredMode() {
+      try {
+        const value = localStorage.getItem('theme-preference');
+        return value === 'dark' || value === 'light' ? value : 'auto';
+      } catch {
+        return 'auto';
+      }
+    }
+
+    function applyMode(mode) {
+      if (mode === 'auto') {
+        delete document.documentElement.dataset.theme;
+      } else {
+        document.documentElement.dataset.theme = mode;
+      }
+    }
+
+    function persistMode(mode) {
+      try {
+        if (mode === 'auto') {
+          localStorage.removeItem('theme-preference');
+        } else {
+          localStorage.setItem('theme-preference', mode);
+        }
+      } catch {
+        // Ignore unavailable storage.
+      }
+    }
+
+    function updateButton(mode) {
+      button.textContent = labels[mode];
+      button.setAttribute('aria-label', 'Darstellung wechseln: ' + labels[mode]);
+    }
+
+    function nextMode(mode) {
+      return modes[(modes.indexOf(mode) + 1) % modes.length];
+    }
+
+    let mode = getStoredMode();
+    applyMode(mode);
+    updateButton(mode);
+
+    button.addEventListener('click', () => {
+      mode = nextMode(mode);
+      applyMode(mode);
+      persistMode(mode);
+      updateButton(mode);
+    });
+
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', () => {
+        if (mode === 'auto') {
+          applyMode('auto');
+        }
+      });
+    }
+  })();
+</script>
 </body>
 </html>

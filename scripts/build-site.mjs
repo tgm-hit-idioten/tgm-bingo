@@ -28,6 +28,70 @@ const bingoCss = `:root {
   --accent: #3b82f6;
   --accent-2: #1d4ed8;
   --ok: #16a34a;
+  --muted: #475569;
+  --surface: #f1f5f9;
+  --shadow: rgba(30, 64, 175, 0.08);
+  --checked-bg: #dcfce7;
+  --checked-border: #86efac;
+  --locked-bg: #dbeafe;
+  --locked-border: #93c5fd;
+  --overlay: rgba(22, 163, 74, 0.94);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1220;
+    --card: #111a2e;
+    --line: #22314c;
+    --text: #e2e8f0;
+    --accent: #60a5fa;
+    --accent-2: #93c5fd;
+    --ok: #4ade80;
+    --muted: #94a3b8;
+    --surface: #17233a;
+    --shadow: rgba(2, 6, 23, 0.6);
+    --checked-bg: #173123;
+    --checked-border: #2f855a;
+    --locked-bg: #172a45;
+    --locked-border: #3b82f6;
+    --overlay: rgba(74, 222, 128, 0.92);
+  }
+}
+
+html[data-theme='light'] {
+  --bg: #f7f8fb;
+  --card: #ffffff;
+  --line: #d8deea;
+  --text: #111827;
+  --accent: #3b82f6;
+  --accent-2: #1d4ed8;
+  --ok: #16a34a;
+  --muted: #475569;
+  --surface: #f1f5f9;
+  --shadow: rgba(30, 64, 175, 0.08);
+  --checked-bg: #dcfce7;
+  --checked-border: #86efac;
+  --locked-bg: #dbeafe;
+  --locked-border: #93c5fd;
+  --overlay: rgba(22, 163, 74, 0.94);
+}
+
+html[data-theme='dark'] {
+  --bg: #0b1220;
+  --card: #111a2e;
+  --line: #22314c;
+  --text: #e2e8f0;
+  --accent: #60a5fa;
+  --accent-2: #93c5fd;
+  --ok: #4ade80;
+  --muted: #94a3b8;
+  --surface: #17233a;
+  --shadow: rgba(2, 6, 23, 0.6);
+  --checked-bg: #173123;
+  --checked-border: #2f855a;
+  --locked-bg: #172a45;
+  --locked-border: #3b82f6;
+  --overlay: rgba(74, 222, 128, 0.92);
 }
 
 * {
@@ -79,12 +143,12 @@ p {
   object-fit: cover;
   border-radius: 14px;
   border: 1px solid var(--line);
-  background: #f1f5f9;
+  background: var(--surface);
 }
 
 .button {
   border: 1px solid var(--line);
-  background: white;
+  background: var(--card);
   color: var(--text);
   border-radius: 10px;
   padding: 0.55rem 0.9rem;
@@ -144,14 +208,14 @@ p {
 }
 
 .cell-btn.checked {
-  background: #dcfce7;
-  border-color: #86efac;
+  background: var(--checked-bg);
+  border-color: var(--checked-border);
   text-decoration: line-through;
 }
 
 .cell-btn.locked {
-  background: #dbeafe;
-  border-color: #93c5fd;
+  background: var(--locked-bg);
+  border-color: var(--locked-border);
   font-weight: 700;
   cursor: default;
 }
@@ -165,7 +229,7 @@ p {
   pointer-events: none;
   font-size: clamp(2rem, 10vw, 6rem);
   font-weight: 900;
-  color: rgba(22, 163, 74, 0.94);
+  color: var(--overlay);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
   z-index: 2;
 }
@@ -176,7 +240,122 @@ p {
 
 .status {
   margin-top: 0.8rem;
-  color: #475569;
+  color: var(--muted);
+}
+
+.theme-toggle {
+  min-width: 12ch;
+  text-align: center;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.menu {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.hint {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  margin-bottom: 0.65rem;
+  background: var(--surface);
+}
+
+.card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px var(--shadow);
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.45rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.field-label {
+  display: inline-block;
+  margin-bottom: 0.35rem;
+}
+
+.hint-text {
+  color: var(--muted);
+  margin: 0;
+}
+
+.creator-grid {
+  margin-top: 0.5rem;
+}
+
+.creator-grid li {
+  min-height: auto;
+}
+
+.creator-cell {
+  width: 100%;
+  min-height: 95px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  padding: 0.35rem;
+}
+
+.creator-cell textarea {
+  width: 100%;
+  height: 100%;
+  min-height: 84px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  text-align: center;
+}
+
+.creator-cell textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  outline-offset: 1px;
+}
+
+.creator-cell.has-error {
+  border-color: #ef4444;
 }
 
 form p {
@@ -199,6 +378,93 @@ select {
   }
 }
 `;
+
+const themeInitScript = `<script>
+  (() => {
+    try {
+      const mode = localStorage.getItem('theme-preference');
+      if (mode === 'light' || mode === 'dark') {
+        document.documentElement.dataset.theme = mode;
+      }
+    } catch {
+      // Ignore unavailable storage.
+    }
+  })();
+</script>`;
+
+const themeToggleScript = `<script>
+  (() => {
+    const button = document.getElementById('theme-toggle');
+    if (!button) {
+      return;
+    }
+
+    const modes = ['auto', 'dark', 'light'];
+    const labels = {
+      auto: 'Design: Auto',
+      dark: 'Design: Dunkel',
+      light: 'Design: Hell'
+    };
+
+    function getStoredMode() {
+      try {
+        const value = localStorage.getItem('theme-preference');
+        return value === 'dark' || value === 'light' ? value : 'auto';
+      } catch {
+        return 'auto';
+      }
+    }
+
+    function applyMode(mode) {
+      if (mode === 'auto') {
+        delete document.documentElement.dataset.theme;
+      } else {
+        document.documentElement.dataset.theme = mode;
+      }
+    }
+
+    function persistMode(mode) {
+      try {
+        if (mode === 'auto') {
+          localStorage.removeItem('theme-preference');
+        } else {
+          localStorage.setItem('theme-preference', mode);
+        }
+      } catch {
+        // Ignore unavailable storage.
+      }
+    }
+
+    function updateButton(mode) {
+      button.textContent = labels[mode];
+      button.setAttribute('aria-label', 'Darstellung wechseln: ' + labels[mode]);
+    }
+
+    function nextMode(mode) {
+      return modes[(modes.indexOf(mode) + 1) % modes.length];
+    }
+
+    let mode = getStoredMode();
+    applyMode(mode);
+    updateButton(mode);
+
+    button.addEventListener('click', () => {
+      mode = nextMode(mode);
+      applyMode(mode);
+      persistMode(mode);
+      updateButton(mode);
+    });
+
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', () => {
+        if (mode === 'auto') {
+          applyMode('auto');
+        }
+      });
+    }
+  })();
+</script>`;
 
 function escapeHtml(value) {
   return String(value)
@@ -275,119 +541,26 @@ function renderIndex(bingos) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lehrer-Bingo Uebersicht</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, Arial, sans-serif;
-      background: #f5f7fb;
-      color: #111827;
-    }
-
-    main {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 2rem 1rem 3rem;
-    }
-
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    .menu {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      border: 1px solid #c7d2fe;
-      background: #fff;
-      color: #111827;
-      text-decoration: none;
-      border-radius: 10px;
-      padding: 0.6rem 0.95rem;
-    }
-
-    .btn.primary {
-      border-color: #2563eb;
-      background: #2563eb;
-      color: white;
-    }
-
-    .hint {
-      color: #4b5563;
-      margin-top: 0;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 0.8rem;
-      margin-top: 1.2rem;
-    }
-
-    .card {
-      display: block;
-      background: white;
-      border: 1px solid #dbe3f1;
-      border-radius: 12px;
-      padding: 0.9rem;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .card img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 10px;
-      border: 1px solid #dbe3f1;
-      margin-bottom: 0.65rem;
-      background: #f1f5f9;
-    }
-
-    .card:hover {
-      border-color: #93c5fd;
-      box-shadow: 0 8px 24px rgba(30, 64, 175, 0.08);
-    }
-
-    .card h2 {
-      font-size: 1.1rem;
-      margin: 0 0 0.45rem;
-    }
-
-    .card p {
-      margin: 0;
-      color: #475569;
-    }
-  </style>
+  <title>Lehrer-Bingo Übersicht</title>
+  ${themeInitScript}
+  <link rel="stylesheet" href="./assets/bingo.css" />
 </head>
 <body>
   <main>
     <div class="top">
       <div>
         <h1>Lehrer-Bingo</h1>
-        <p class="hint">Waehle ein Bingo und hake Felder direkt im Browser ab.</p>
+        <p class="hint">Wähle ein Bingo und hake Felder direkt im Browser ab.</p>
       </div>
-      <nav class="menu" aria-label="Hauptmenue">
-        <a class="btn primary" href="./neu/index.html">Neues Bingo erstellen</a>
+      <nav class="menu" aria-label="Hauptmenü">
+        <button type="button" id="theme-toggle" class="button theme-toggle">Design: Auto</button>
+        <a class="button primary" href="./neu/index.html">Neues Bingo erstellen</a>
       </nav>
     </div>
     <section class="cards" aria-label="Bingo-Liste">${cards}
     </section>
   </main>
+  ${themeToggleScript}
 </body>
 </html>`;
 }
@@ -410,6 +583,7 @@ function renderBingoPage(bingo) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${escapeHtml(bingo.title)}</title>
+  ${themeInitScript}
   <link rel="stylesheet" href="../assets/bingo.css" />
 </head>
 <body>
@@ -417,10 +591,11 @@ function renderBingoPage(bingo) {
     <header>
       <div>
         <h1>${escapeHtml(bingo.title)}</h1>
-        <p>${escapeHtml(bingo.subtitle || 'Viel Spass beim Unterrichts-Bingo.')}</p>
+        <p>${escapeHtml(bingo.subtitle || 'Viel Spaß beim Unterrichts-Bingo.')}</p>
       </div>
       <div class="actions">
-        <a class="button" href="../index.html">Zur Uebersicht</a>
+        <a class="button" href="../index.html">Zur Übersicht</a>
+        <button type="button" id="theme-toggle" class="button theme-toggle">Design: Auto</button>
         <button type="button" id="reset-board" class="button">Reset</button>
       </div>
     </header>
@@ -635,6 +810,7 @@ function renderBingoPage(bingo) {
       resetBtn.addEventListener('click', resetBoard);
     }
   </script>
+  ${themeToggleScript}
 </body>
 </html>`;
 }
@@ -646,6 +822,7 @@ function renderCreatePage() {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Neues Bingo erstellen</title>
+  ${themeInitScript}
   <link rel="stylesheet" href="../assets/bingo.css" />
 </head>
 <body>
@@ -656,7 +833,8 @@ function renderCreatePage() {
         <p>Erstelle dein Bingo als JSON-Datei.</p>
       </div>
       <div class="actions">
-        <a class="button" href="../index.html">Zur Uebersicht</a>
+        <a class="button" href="../index.html">Zur Übersicht</a>
+        <button type="button" id="theme-toggle" class="button theme-toggle">Design: Auto</button>
       </div>
     </header>
 
@@ -671,14 +849,15 @@ function renderCreatePage() {
         <label>Titelbild (URL oder relativer Pfad)<br /><input name="titleImage" placeholder="../assets/bilder/mein-bingo.jpg" /></label>
       </p>
       <p>
-        <label>Quadratgroesse (z. B. 3, 4, 5)<br /><input name="size" type="number" min="2" value="5" required /></label>
+        <label>Quadratgröße (z. B. 3, 4, 5)<br /><input name="size" type="number" min="2" value="5" required /></label>
       </p>
       <p>
-        <label>Freifeld-Text (optional, nur bei ungerader Groesse fuer die Mitte)<br /><input name="freeText" placeholder="z. B. Freifeld" /></label>
+        <label>Freifeld-Text (optional, nur bei ungerader Größe für die Mitte)<br /><input name="freeText" placeholder="z. B. Freifeld" /></label>
       </p>
       <p>
-        <label>Felder (eine Zeile pro Feld)</label><br />
-        <textarea name="cells" rows="14" required></textarea>
+        <label class="field-label">Felder</label>
+        <p class="hint-text">Trage deine Begriffe direkt in die Boxen ein. Für ein Bingo müssen alle Felder gefüllt sein.</p>
+        <ul id="creator-grid" class="grid creator-grid" style="--grid-size: 5;" aria-live="polite"></ul>
       </p>
       <div class="actions">
         <button class="button primary" type="submit">JSON herunterladen</button>
@@ -688,6 +867,77 @@ function renderCreatePage() {
 
   <script>
     const form = document.getElementById('create-form');
+    const sizeInput = form.elements.size;
+    const gridEl = document.getElementById('creator-grid');
+
+    function getCurrentGridValues() {
+      return Array.from(gridEl.querySelectorAll('textarea[data-cell-index]')).map((input) => input.value);
+    }
+
+    function sanitizeSize(value) {
+      const number = Number(value);
+      if (!Number.isInteger(number) || number < 2) {
+        return 5;
+      }
+      return number;
+    }
+
+    function renderCreatorGrid(size) {
+      const preserved = getCurrentGridValues();
+      const expected = size * size;
+      const fragment = document.createDocumentFragment();
+
+      for (let index = 0; index < expected; index += 1) {
+        const item = document.createElement('li');
+        const wrapper = document.createElement('div');
+        wrapper.className = 'creator-cell';
+
+        const input = document.createElement('textarea');
+        input.required = true;
+        input.dataset.cellIndex = String(index);
+        input.placeholder = 'Feld ' + (index + 1);
+        input.value = preserved[index] || '';
+
+        wrapper.appendChild(input);
+        item.appendChild(wrapper);
+        fragment.appendChild(item);
+      }
+
+      gridEl.style.setProperty('--grid-size', String(size));
+      gridEl.replaceChildren(fragment);
+    }
+
+    function collectGridCells(expected) {
+      const inputs = Array.from(gridEl.querySelectorAll('textarea[data-cell-index]'));
+      const cells = [];
+      const emptyIndices = [];
+
+      for (let index = 0; index < expected; index += 1) {
+        const input = inputs[index];
+        const value = String(input?.value || '').trim();
+        const wrapper = input?.closest('.creator-cell');
+        if (wrapper) {
+          wrapper.classList.remove('has-error');
+        }
+
+        if (!value) {
+          emptyIndices.push(index);
+          if (wrapper) {
+            wrapper.classList.add('has-error');
+          }
+        }
+        cells.push(value);
+      }
+
+      return { cells, emptyIndices };
+    }
+
+    sizeInput.addEventListener('input', () => {
+      const size = sanitizeSize(sizeInput.value);
+      renderCreatorGrid(size);
+    });
+
+    renderCreatorGrid(sanitizeSize(sizeInput.value));
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -695,18 +945,17 @@ function renderCreatePage() {
       const data = new FormData(form);
       const size = Number(data.get('size'));
       const expected = size * size;
-      const cells = String(data.get('cells') || '')
-        .split('\\n')
-        .map((line) => line.trim())
-        .filter(Boolean);
 
       if (!Number.isInteger(size) || size < 2) {
-        alert('Bitte eine gueltige Quadratgroesse ab 2 eintragen.');
+        alert('Bitte eine gültige Quadratgröße ab 2 eintragen.');
         return;
       }
 
-      if (cells.length !== expected) {
-        alert('Bitte genau ' + expected + ' Felder eintragen. Aktuell: ' + cells.length);
+      const { cells, emptyIndices } = collectGridCells(expected);
+      if (emptyIndices.length > 0) {
+        alert('Bitte alle ' + expected + ' Felder ausfüllen. Leer: ' + (emptyIndices[0] + 1));
+        const firstEmpty = gridEl.querySelector('textarea[data-cell-index="' + emptyIndices[0] + '"]');
+        firstEmpty?.focus();
         return;
       }
 
@@ -739,6 +988,7 @@ function renderCreatePage() {
       URL.revokeObjectURL(url);
     });
   </script>
+  ${themeToggleScript}
 </body>
 </html>`;
 }

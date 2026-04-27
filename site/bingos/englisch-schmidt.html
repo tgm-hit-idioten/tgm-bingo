@@ -4,6 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bingo - Englisch bei Frau Schmidt</title>
+  <script>
+    (() => {
+      try {
+        const mode = localStorage.getItem('theme-preference');
+        if (mode === 'light' || mode === 'dark') {
+          document.documentElement.dataset.theme = mode;
+        }
+      } catch {
+        // Ignore unavailable storage.
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="../assets/bingo.css" />
 </head>
 <body>
@@ -14,7 +26,8 @@
         <p>Classroom-Bingo fuer den Sprachunterricht</p>
       </div>
       <div class="actions">
-        <a class="button" href="../index.html">Zur Uebersicht</a>
+        <a class="button" href="../index.html">Zur Übersicht</a>
+        <button type="button" id="theme-toggle" class="button theme-toggle">Design: Auto</button>
         <button type="button" id="reset-board" class="button">Reset</button>
       </div>
     </header>
@@ -228,6 +241,79 @@
     if (resetBtn) {
       resetBtn.addEventListener('click', resetBoard);
     }
+  </script>
+  <script>
+    (() => {
+      const button = document.getElementById('theme-toggle');
+      if (!button) {
+        return;
+      }
+
+      const modes = ['auto', 'dark', 'light'];
+      const labels = {
+        auto: 'Design: Auto',
+        dark: 'Design: Dunkel',
+        light: 'Design: Hell'
+      };
+
+      function getStoredMode() {
+        try {
+          const value = localStorage.getItem('theme-preference');
+          return value === 'dark' || value === 'light' ? value : 'auto';
+        } catch {
+          return 'auto';
+        }
+      }
+
+      function applyMode(mode) {
+        if (mode === 'auto') {
+          delete document.documentElement.dataset.theme;
+        } else {
+          document.documentElement.dataset.theme = mode;
+        }
+      }
+
+      function persistMode(mode) {
+        try {
+          if (mode === 'auto') {
+            localStorage.removeItem('theme-preference');
+          } else {
+            localStorage.setItem('theme-preference', mode);
+          }
+        } catch {
+          // Ignore unavailable storage.
+        }
+      }
+
+      function updateButton(mode) {
+        button.textContent = labels[mode];
+        button.setAttribute('aria-label', 'Darstellung wechseln: ' + labels[mode]);
+      }
+
+      function nextMode(mode) {
+        return modes[(modes.indexOf(mode) + 1) % modes.length];
+      }
+
+      let mode = getStoredMode();
+      applyMode(mode);
+      updateButton(mode);
+
+      button.addEventListener('click', () => {
+        mode = nextMode(mode);
+        applyMode(mode);
+        persistMode(mode);
+        updateButton(mode);
+      });
+
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+      if (typeof media.addEventListener === 'function') {
+        media.addEventListener('change', () => {
+          if (mode === 'auto') {
+            applyMode('auto');
+          }
+        });
+      }
+    })();
   </script>
 </body>
 </html>
