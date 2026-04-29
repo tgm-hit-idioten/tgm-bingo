@@ -543,6 +543,11 @@ function renderIndex(bingos) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lehrer-Bingo Übersicht</title>
   ${themeInitScript}
+  <style>
+    body {
+      visibility: visible;
+    }
+  </style>
   <link rel="stylesheet" href="./assets/bingo.css" />
 </head>
 <body>
@@ -623,12 +628,14 @@ function renderBingoPage(bingo) {
     const centerIndex = side % 2 === 1 ? Math.floor(total / 2) : -1;
     const hasFreeCenter = centerIndex >= 0 && typeof data.freeText === 'string' && data.freeText.trim().length > 0;
 
-    function dateKeyLocal() {
-      const now = new Date();
-      const y = now.getFullYear();
-      const m = String(now.getMonth() + 1).padStart(2, '0');
-      const d = String(now.getDate()).padStart(2, '0');
-      return y + '-' + m + '-' + d;
+    function createShuffleSeed() {
+      try {
+        const values = new Uint32Array(2);
+        crypto.getRandomValues(values);
+        return Array.from(values, (value) => value.toString(16)).join('-');
+      } catch {
+        return String(Date.now()) + '-' + String(Math.random()).slice(2);
+      }
     }
 
     function hash32(str) {
@@ -660,7 +667,8 @@ function renderBingoPage(bingo) {
       return copy;
     }
 
-    const seed = dateKeyLocal() + '|' + String(data.id || data.slug || 'bingo');
+    const shuffleSeed = createShuffleSeed();
+    const seed = shuffleSeed + '|' + String(data.id || data.slug || 'bingo');
     const shuffled = shuffleDeterministic(Array.isArray(data.cells) ? data.cells : [], seed).slice(0, total);
     const renderedCells = shuffled.map((text, index) => {
       if (hasFreeCenter && index === centerIndex) {
@@ -680,7 +688,7 @@ function renderBingoPage(bingo) {
     seedCheckedWithLocked();
 
     function storageKey() {
-      return ['bingo-state', data.id || data.slug || 'bingo', dateKeyLocal()].join(':');
+      return ['bingo-state', data.id || data.slug || 'bingo', shuffleSeed].join(':');
     }
 
     function restoreState() {
