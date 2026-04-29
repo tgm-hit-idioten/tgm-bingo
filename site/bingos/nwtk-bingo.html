@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Umar-Bingo</title>
+  <title>NWTK bingo</title>
   <script>
   (() => {
     try {
@@ -22,8 +22,8 @@
   <main>
     <header>
       <div>
-        <h1>Umar-Bingo</h1>
-        <p>Netzwerktechnik ist peak</p>
+        <h1>NWTK bingo</h1>
+        <p>Umar mit einem a</p>
       </div>
       <div class="actions">
         <a class="button" href="../index.html">Zur Übersicht</a>
@@ -36,12 +36,12 @@
 
     <section class="board" aria-label="Bingo-Feld">
       <div id="bingo-overlay" class="bingo-overlay" aria-live="polite">BINGO</div>
-      <ul id="bingo-grid" class="grid" style="--grid-size: 4;"></ul>
+      <ul id="bingo-grid" class="grid" style="--grid-size: 5;"></ul>
     </section>
     <p id="bingo-status" class="status" aria-live="polite"></p>
   </main>
 
-  <script id="bingo-data" type="application/json">{"id":"umar-bingo","slug":"umar-bingo","title":"Umar-Bingo","subtitle":"Netzwerktechnik ist peak","freeText":"","cells":["Sagt irgendwas über die nächsten Jahre","Sagt dass andere Klassen so viel besser sind als wir","Zeichnet was an der Tafel das sich keiner anschaut","Macht einfach mehr als doppelt so lang Pause","Sagt dass er Leute einfach zocken lässt","Schickt Schüler mit Fragen zu der ersten Reihe","Zeigt uns irgendein indisches YouTube-Video","Sagt dass er auch bezahlt wird wenn er uns nicht hilft","Sagt irgendwas über andere Lehrer","Macht einfach seine privaten Sachen in der Schule","Bittet die Leute in der ersten Reihe um irgendwas","Lässt Leute einfach aus dem Klassenraum abhauen","Yappt irgendwas über IP Adressen","Gibt uns ne ganze Doppelstunde Zeit nur um für ne WH zu lernen","Redet irgendwas über wie wir KI nutzen sollen","Erzählt irgendwas von seinem Privatleben"],"gridSize":4}</script>
+  <script id="bingo-data" type="application/json">{"id":"nwtk-bingo","slug":"nwtk-bingo","title":"NWTK bingo","subtitle":"Umar mit einem a","freeText":"Freifeld","cells":["Macht länger Pause als normal","Kommt verspätet","Redet irgendwas über KI","Lässt Leute zocken","Sagt \"Ich werde auch bezahlt wenn ihr nichts lernt\"","Redet über wie schlimm wir sind","Kommt mit Kaffee in die Klasse","Gibt uns ganze Doppelstunde für WH zu lernen","Zeichnet was an die Tafel","Labert über Magic Numbers","Zeigt irgend ein indisches YouTube Video","Wirkt depressiv","Erzählt was von seinen Privatleben","Macht seine Privaten Sachen in der Stunde","Redet über wie schwer die nächsten Jahre werden","Bittet die Leute in der ersten Reihe um etwas","Sagt dass andere Klassen viel besser als wir sind","OOOOOH NETZWERKTECHNIK OHHHH","Verpisst sich","Lässt Leute einfach rausgehen","Sagt \"Hey, Leute\"","Sagt \"Mir ist es wurscht ob ihr zockt, seid einfach leise\"","Leute werfen Papier in der Klasse","Sagt nach jedem Satz \"Ja\"","Redet über IP Adressen"],"gridSize":5}</script>
   <script>
     const bingoDataEl = document.getElementById('bingo-data');
     const data = JSON.parse(bingoDataEl.textContent || '{}');
